@@ -157,7 +157,8 @@
 			<div class="first-column">
 				<h2>Protecting our Vulnerable Species</h2>
 				<p>
-					The Endangered Species Act defines a Critical Habitat as " a specific geographic area(s) that contains features essential for the conservation of a threatened or endangered species and that may require special management and protection. Critical habitat may include an area that is not currently occupied by the species but that will be needed for its recovery."
+					The Endangered Species Act defines a Critical Habitat as " a specific geographic area(s) that contains features essential for the conservation of a threatened or endangered species and that may require special management and protection.
+					Critical habitat may include an area that is not currently occupied by the species but that will be needed for its recovery."
 				</p>
 
 				<p><b>Social links</b></p>
@@ -172,7 +173,8 @@
 			<div class="column">
 				<img class="max-image-width" src="images/sign.jpg" title="Example of a blocked off Critical Habitat">
 				<div class="linkbox">
-					Example of a blocked off <a href ="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiY09PQ47HfAhULRqwKHeX3AZEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fusfwsnortheast%2F4621670961&psig=AOvVaw3YsUXF06dL4NgIjOHdCb4l&ust=1545511089589893"> Critical Habitat
+					Example of a blocked off <a href="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiY09PQ47HfAhULRqwKHeX3AZEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fusfwsnortheast%2F4621670961&psig=AOvVaw3YsUXF06dL4NgIjOHdCb4l&ust=1545511089589893">
+						Critical Habitat
 				</div>
 			</div>
 		</div>
@@ -199,8 +201,9 @@
 		// console.log(p);
 
 		var options = {
-			center: [37.4922902,-84.3868702],
-			zoom: 6
+			center: [37.4922902, -84.3868702],
+			zoom: 6,
+			doubleClickZoom: true
 		}
 		// create a Leaflet map in our division container with id of 'map'
 		var map = L.map('map', options);
@@ -258,27 +261,31 @@
 				var latlng = feature.geometry.coordinates
 				// console.log(latlng);
 				if (feature.properties.listing_st == "Endangered") {
-				return feature
-			}},
-			style: function(feature){
+					return feature
+				}
+			},
+			style: function(feature) {
 				return {
 					color: "#cc0000"
 				}
-			}}).addTo(map);
+			}
+		}).addTo(map);
 
-			var criticalStreamssThr = L.geoJson(li, {
-				filter: function(feature) {
-					var latlng = feature.geometry.coordinates
-					// console.log(latlng);
-					if (feature.properties.listing_st == "Threatened") {
+		var criticalStreamsThr = L.geoJson(li, {
+			filter: function(feature) {
+				var latlng = feature.geometry.coordinates
+				// console.log(latlng);
+				if (feature.properties.listing_st == "Threatened") {
 					return feature
-				}},
-				style: function(feature){
-					return {
-						color: "#ffff00",
-						stroke: .5
-					}
-				}}).addTo(map);
+				}
+			},
+			style: function(feature) {
+				return {
+					color: "#ffff00",
+					stroke: .5
+				}
+			}
+		}).addTo(map);
 	</script>
 </body>
 
