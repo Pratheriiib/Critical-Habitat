@@ -23,7 +23,7 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background: #15397f;
+			background: #e6e6e6;
 			font-family: 'Quicksand', sans-serif;
 			font-weight: 400;
 			color: #000000;
@@ -50,7 +50,7 @@
 
 		h2 {
 			font-weight: 'bold';
-			color: #63666a;
+			color: #333333;
 			font-size: 2.2em;
 			letter-spacing: .06em;
 			font-style: italic;
@@ -155,25 +155,24 @@
 			<div id="map"></div>
 
 			<div class="first-column">
-				<h2>Patterns of map production</h2>
+				<h2>Protecting our Vulnerable Species</h2>
 				<p>
-					"I make maps like other cartographers."
-					(<a href="https://en.wikipedia.org/wiki/List_of_cartographers">Wikipedia list of cartographers.</a>)
+					The Endangered Species Act defines a Critical Habitat as " a specific geographic area(s) that contains features essential for the conservation of a threatened or endangered species and that may require special management and protection. Critical habitat may include an area that is not currently occupied by the species but that will be needed for its recovery."
 				</p>
 
 				<p><b>Social links</b></p>
 				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/newmapsplus">New Maps Plus</a></li>
-					<li>Follow me on twitter: <a href="https://twitter.com/NewMapsPlus">@NewMapsPlus</a></li>
+					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
+					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
 					<li>Visit my <a href='#'>mapping portfolio</a>.</li>
 				</ul>
 
 
 			</div>
 			<div class="column">
-				<img class="max-image-width" src="https://farm2.staticflickr.com/1816/28917431097_5bb5cadb70_h.jpg" title="Electricity and bubbles in a Lexington sunset">
+				<img class="max-image-width" src="images/sign.jpg" title="Example of a blocked off Critical Habitat">
 				<div class="linkbox">
-					Electricity and bubbles in a Lexington sunset
+					Example of a blocked off <a href ="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiY09PQ47HfAhULRqwKHeX3AZEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fusfwsnortheast%2F4621670961&psig=AOvVaw3YsUXF06dL4NgIjOHdCb4l&ust=1545511089589893"> Critical Habitat
 				</div>
 			</div>
 		</div>
@@ -200,8 +199,8 @@
 		// console.log(p);
 
 		var options = {
-			center: [38, -95],
-			zoom: 4
+			center: [37.4922902,-84.3868702],
+			zoom: 6
 		}
 		// create a Leaflet map in our division container with id of 'map'
 		var map = L.map('map', options);
@@ -232,7 +231,8 @@
 			},
 			style: function(feature) {
 				return {
-					color: "red"
+					color: "#cc0000",
+					stroke: 1.5
 				}
 			}
 		}).addTo(map);
@@ -247,7 +247,8 @@
 			},
 			style: function(feature) {
 				return {
-					color: "yellow"
+					color: "#ffff00",
+					stroke: 1
 				}
 			}
 		}).addTo(map);
@@ -261,9 +262,23 @@
 			}},
 			style: function(feature){
 				return {
-					color: "black"
+					color: "#cc0000"
 				}
-			}}).addTo(map)
+			}}).addTo(map);
+
+			var criticalStreamssThr = L.geoJson(li, {
+				filter: function(feature) {
+					var latlng = feature.geometry.coordinates
+					// console.log(latlng);
+					if (feature.properties.listing_st == "Threatened") {
+					return feature
+				}},
+				style: function(feature){
+					return {
+						color: "#ffff00",
+						stroke: .5
+					}
+				}}).addTo(map);
 	</script>
 </body>
 
