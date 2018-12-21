@@ -23,10 +23,10 @@
 		body {
 			margin: 0;
 			padding: 0;
-			background: #e3e3e6;
+			background: #15397f;
 			font-family: 'Lato', sans-serif;
 			font-weight: 300;
-			color: #3d3d3d;
+			color: #000000;
 			font-size: 100%;
 			/* 16px is default browser size */
 		}
@@ -189,13 +189,17 @@ console.log(p);
 		var map = L.map('map', options);
 		// Leaflet providers base map URL
 		var basemap_source =
-			'https://cartodb-basemaps-{s}.global.ssl.fastly.net/rastertiles/dark_all/{z}/{x}/{y}.png'
+			'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}{r}.{ext}';
 		// Leaflet providers attributes
 		var basemap_options = {
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
-			subdomains: 'abcd',
-			maxZoom: 19
-		};
+				attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+				subdomains: 'abcd',
+				minZoom: 0,
+				maxZoom: 20,
+				ext: 'png'
+};
+
+
 		// request some basemap tiles and add to the map
 		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
