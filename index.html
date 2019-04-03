@@ -235,15 +235,14 @@
 		// create a Leaflet map in our division container with id of 'map'
 		var map = L.map('map', options);
 		// Leaflet providers base map URL
+
+	
 		var basemap_source =
-			'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}{r}.{ext}';
+		'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
 		// Leaflet providers attributes
 		var basemap_options = {
-			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-			subdomains: 'abcd',
-			minZoom: 0,
-			maxZoom: 20,
-			ext: 'png'
+			attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+			
 		};
 
 
