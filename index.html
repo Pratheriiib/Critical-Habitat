@@ -235,8 +235,6 @@
 		
 		criticalAreas[type] = L.geoJson(p, {
 			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
 				if (feature.properties.listing_st == type) {
 					return feature
 				}
@@ -246,6 +244,12 @@
 					color: Danger[type],
 					stroke: 1.5
 				}
+			},
+			onEachFeature: function (feature, layer) {
+				var p = feature.properties
+				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
+				layer.bindPopup(popup)
+				console.log(popup)
 			}
 		}).addTo(map);
 		}
@@ -254,8 +258,6 @@
 		
 		criticalLines[type] = L.geoJson(li, {
 			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
 				if (feature.properties.listing_st == type) {
 					return feature
 				}
@@ -264,6 +266,12 @@
 				return {
 					color: Danger[type]
 				}
+			},
+			onEachFeature: function (feature, layer) {
+				var p = feature.properties
+				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
+				layer.bindPopup(popup)
+				console.log(popup)
 			}
 		}).addTo(map);
 		};
