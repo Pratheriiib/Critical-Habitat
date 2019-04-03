@@ -63,6 +63,16 @@
 			margin-bottom: 5px;
 		}
 
+		#listAll h3 {
+			font-weight: 300;
+			font-size: 1.5em;
+			color:gray;
+		}
+
+		#listAll i {
+			color:gray;
+		}
+
 		p {
 			font-size: 1.3em;
 			line-height: 1.8em;
@@ -127,6 +137,17 @@
 			width: 49%;
 		}
 
+		.first-column-25 {
+			float: left;
+			width: 23%;
+			padding-right: 2%;
+		}
+
+		.column-25 {
+			float: left;
+			width: 23%;
+		}
+
 		/* Clear floats after the columns */
 		.row::after {
 			content: "";
@@ -138,7 +159,9 @@
 		@media screen and (max-width: 900px) {
 
 			.first-column,
-			.second-column {
+			.column, 
+			.first-column-25,
+			.column-25 {
 				width: 100%;
 			}
 		}
@@ -161,26 +184,30 @@
 					Critical habitat may include an area that is not currently occupied by the species but that will be needed for its recovery."
 				</p>
 
-				<p><b>Social links</b></p>
-				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
-					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
-					<!-- <li>Visit my <a href='#'>mapping portfolio</a>.</li> -->
-				</ul>
-
-
 			</div>
 			<div class="column">
 				<img class="max-image-width" src="images/sign.jpg" title="Example of a blocked off Critical Habitat">
 				<div class="linkbox">
 					Example of a blocked off <a href="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiY09PQ47HfAhULRqwKHeX3AZEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fusfwsnortheast%2F4621670961&psig=AOvVaw3YsUXF06dL4NgIjOHdCb4l&ust=1545511089589893">
-						Critical Habitat
+						Critical Habitat</a>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+		<h2>List of Species</h2>
+				<div id="listAll">
 			</div>
 		</div>
 	</section>
 	<footer>
 		<hr>
+
+		<p><b>Social links</b></p>
+				<ul>
+					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
+					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
+					<!-- <li>Visit my <a href='#'>mapping portfolio</a>.</li> -->
+				</ul>
 
 		<a href="https://newmapsplus.github.io">
 			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
@@ -228,8 +255,10 @@
 			"Threatened": "#ffff00"
 		}
 
-		var criticalAreas = {}
-		var criticalLines = {}
+		var criticalAreas = {},
+			criticalLines = {},
+			listAll = [],
+			i = 0
 
 		for (type in Danger) {
 		
@@ -249,7 +278,8 @@
 				var p = feature.properties
 				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
 				layer.bindPopup(popup)
-				console.log(popup)
+				listAll[i] = popup
+				i++
 			}
 		}).addTo(map);
 		}
@@ -271,10 +301,22 @@
 				var p = feature.properties
 				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
 				layer.bindPopup(popup)
-				console.log(popup)
+				listAll[i] = popup
+				i++
 			}
 		}).addTo(map);
 		};
+		listAll.sort()
+		for (var n = 0; n < listAll.length; n++) {
+			if (n == 0) {
+				listPlace = `<div class="first-column-25">`
+			} else if (n%3 == 0) {
+				listPlace += `</div><div class="column-25">`
+			}
+
+			listPlace += listAll[n]
+		}
+		document.getElementById("listAll").innerHTML= `${listPlace}</div>`
 
 		// var criticalAreasEnd = L.geoJson(p, {
 		// 	filter: function(feature) {
