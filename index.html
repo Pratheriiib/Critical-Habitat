@@ -63,6 +63,16 @@
 			margin-bottom: 5px;
 		}
 
+		#listAll h3 {
+			font-weight: 300;
+			font-size: 1.5em;
+			color:gray;
+		}
+
+		#listAll i {
+			color:gray;
+		}
+
 		p {
 			font-size: 1.3em;
 			line-height: 1.8em;
@@ -127,6 +137,17 @@
 			width: 49%;
 		}
 
+		.first-column-25 {
+			float: left;
+			width: 23%;
+			padding-right: 2%;
+		}
+
+		.column-25 {
+			float: left;
+			width: 23%;
+		}
+
 		/* Clear floats after the columns */
 		.row::after {
 			content: "";
@@ -138,7 +159,9 @@
 		@media screen and (max-width: 900px) {
 
 			.first-column,
-			.second-column {
+			.column, 
+			.first-column-25,
+			.column-25 {
 				width: 100%;
 			}
 		}
@@ -161,26 +184,30 @@
 					Critical habitat may include an area that is not currently occupied by the species but that will be needed for its recovery."
 				</p>
 
-				<p><b>Social links</b></p>
-				<ul>
-					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
-					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
-					<li>Visit my <a href='#'>mapping portfolio</a>.</li>
-				</ul>
-
-
 			</div>
 			<div class="column">
 				<img class="max-image-width" src="images/sign.jpg" title="Example of a blocked off Critical Habitat">
 				<div class="linkbox">
 					Example of a blocked off <a href="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiY09PQ47HfAhULRqwKHeX3AZEQjRx6BAgBEAU&url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fusfwsnortheast%2F4621670961&psig=AOvVaw3YsUXF06dL4NgIjOHdCb4l&ust=1545511089589893">
-						Critical Habitat
+						Critical Habitat</a>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+		<h2>List of Species</h2>
+				<div id="listAll">
 			</div>
 		</div>
 	</section>
 	<footer>
 		<hr>
+
+		<p><b>Social links</b></p>
+				<ul>
+					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
+					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
+					<!-- <li>Visit my <a href='#'>mapping portfolio</a>.</li> -->
+				</ul>
 
 		<a href="https://newmapsplus.github.io">
 			<img src="https://newmapsplus.github.io/assets/graphics/logo-2018-nmp-75px-h-gray.png" alt="University of Kentucky Geography">
@@ -208,84 +235,150 @@
 		// create a Leaflet map in our division container with id of 'map'
 		var map = L.map('map', options);
 		// Leaflet providers base map URL
+
+	
 		var basemap_source =
-			'https://stamen-tiles-{s}.a.ssl.fastly.net/toner-background/{z}/{x}/{y}{r}.{ext}';
+		'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}';
 		// Leaflet providers attributes
 		var basemap_options = {
-			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-			subdomains: 'abcd',
-			minZoom: 0,
-			maxZoom: 20,
-			ext: 'png'
+			attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+			
 		};
 
 
 		// request some basemap tiles and add to the map
 		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
+		var Danger = {
+			"Endangered": "#cc0000",
+			"Threatened": "#ffff00"
+		}
 
-		var criticalAreasEnd = L.geoJson(p, {
+		var criticalAreas = {},
+			criticalLines = {},
+			listAll = [],
+			i = 0
+
+		for (type in Danger) {
+		
+		criticalAreas[type] = L.geoJson(p, {
 			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
-				if (feature.properties.listing_st == "Endangered") {
+				if (feature.properties.listing_st == type) {
 					return feature
 				}
 			},
 			style: function(feature) {
 				return {
-					color: "#cc0000",
+					color: Danger[type],
 					stroke: 1.5
 				}
+			},
+			onEachFeature: function (feature, layer) {
+				var p = feature.properties
+				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
+				layer.bindPopup(popup)
+				listAll[i] = popup
+				i++
 			}
 		}).addTo(map);
-
-		var criticalAreasThr = L.geoJson(p, {
+		}
+		
+	for (type in Danger) {
+		
+		criticalLines[type] = L.geoJson(li, {
 			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
-				if (feature.properties.listing_st == "Threatened") {
+				if (feature.properties.listing_st == type) {
 					return feature
 				}
 			},
 			style: function(feature) {
 				return {
-					color: "#ffff00",
-					stroke: 1
-				}
-			}
-		}).addTo(map);
-
-		var criticalStreamssEnd = L.geoJson(li, {
-			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
-				if (feature.properties.listing_st == "Endangered") {
-					return feature
+					color: Danger[type]
 				}
 			},
-			style: function(feature) {
-				return {
-					color: "#cc0000"
-				}
+			onEachFeature: function (feature, layer) {
+				var p = feature.properties
+				var popup = `<h3>${type}</h3>${p.comname}<br><i>${p.sciname}</i>`
+				layer.bindPopup(popup)
+				listAll[i] = popup
+				i++
 			}
 		}).addTo(map);
+		};
+		listAll.sort()
+		for (var n = 0; n < listAll.length; n++) {
+			if (n == 0) {
+				listPlace = `<div class="first-column-25">`
+			} else if (n%3 == 0) {
+				listPlace += `</div><div class="column-25">`
+			}
 
-		var criticalStreamsThr = L.geoJson(li, {
-			filter: function(feature) {
-				var latlng = feature.geometry.coordinates
-				// console.log(latlng);
-				if (feature.properties.listing_st == "Threatened") {
-					return feature
-				}
-			},
-			style: function(feature) {
-				return {
-					color: "#ffff00",
-					stroke: .5
-				}
-			}
-		}).addTo(map);
+			listPlace += listAll[n]
+		}
+		document.getElementById("listAll").innerHTML= `${listPlace}</div>`
+
+		// var criticalAreasEnd = L.geoJson(p, {
+		// 	filter: function(feature) {
+		// 		var latlng = feature.geometry.coordinates
+		// 		// console.log(latlng);
+		// 		if (feature.properties.listing_st == "Endangered") {
+		// 			return feature
+		// 		}
+		// 	},
+		// 	style: function(feature) {
+		// 		return {
+		// 			color: "#cc0000",
+		// 			stroke: 1.5
+		// 		}
+		// 	}
+		// }).addTo(map);
+
+		// var criticalAreasThr = L.geoJson(p, {
+		// 	filter: function(feature) {
+		// 		var latlng = feature.geometry.coordinates
+		// 		// console.log(latlng);
+		// 		if (feature.properties.listing_st == "Threatened") {
+		// 			return feature
+		// 		}
+		// 	},
+		// 	style: function(feature) {
+		// 		return {
+		// 			color: "#ffff00",
+		// 			stroke: 1
+		// 		}
+		// 	}
+		// }).addTo(map);
+
+		// var criticalStreamssEnd = L.geoJson(li, {
+		// 	filter: function(feature) {
+		// 		var latlng = feature.geometry.coordinates
+		// 		// console.log(latlng);
+		// 		if (feature.properties.listing_st == "Endangered") {
+		// 			return feature
+		// 		}
+		// 	},
+		// 	style: function(feature) {
+		// 		return {
+		// 			color: "#cc0000"
+		// 		}
+		// 	}
+		// }).addTo(map);
+
+		// var criticalStreamsThr = L.geoJson(li, {
+		// 	filter: function(feature) {
+		// 		var latlng = feature.geometry.coordinates
+		// 		// console.log(latlng);
+		// 		if (feature.properties.listing_st == "Threatened") {
+		// 			return feature
+		// 		}
+		// 	},
+		// 	style: function(feature) {
+		// 		return {
+		// 			color: "#ffff00",
+		// 			stroke: .5
+		// 		}
+		// 	}
+		// }).addTo(map);
 	</script>
 </body>
 
