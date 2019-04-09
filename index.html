@@ -253,8 +253,19 @@
 					color: "#ffff00",
 					stroke: 1
 				}
-			}
-		}).addTo(map);
+			},
+			onEachFeature: function(feature, layer) {
+				common = p.features.properties.comname;
+				scientific = features.properties.sciname;
+				status = features.properties.listing_st;
+				tool = "<h1>" + common + "</h1>" +
+				"<p>"+ scientific + "</p>"+
+				"<p>"+ status + "</p";
+
+				layer.on('mouseover', function(){
+					layer.bindTooltip(tool)})
+				}})
+				.addTo(map);
 
 		var criticalStreamssEnd = L.geoJson(li, {
 			filter: function(feature) {
