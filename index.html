@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset=utf-8 />
-	<title></title>
+	<title>Critical Habitat: Protecting our Vulnerable Species</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	<link rel='icon' href='https://newmapsplus.github.io/favicon.ico' type='image/x-icon' />
 
@@ -30,14 +30,12 @@
 			font-size: 100%;
 			/* 16px is default browser size */
 		}
-
 		header,
 		section,
 		footer {
 			width: 80%;
 			margin: 10px auto;
 		}
-
 		h1 {
 			font-weight: 700;
 			font-size: 4em;
@@ -47,7 +45,6 @@
 			margin: 5px 0;
 			/* text-transform: uppercase; */
 		}
-
 		h2 {
 			font-weight: 'bold';
 			color: #333333;
@@ -56,47 +53,39 @@
 			font-style: italic;
 			margin: 5px 0;
 		}
-
 		h3 {
 			font-weight: 300i;
 			font-size: 1.5em;
 			margin-bottom: 5px;
 		}
-
 		p {
 			font-size: 1.3em;
 			line-height: 1.8em;
 			margin-bottom: 5px;
 		}
-
 		a {
 			color: #004A8B;
 			font-weight: 400;
 			text-decoration: none;
 		}
-
 		a:hover {
 			text-decoration: underline;
 		}
-
 		ul {
 			padding: 0px 20px 4px 20px;
 			font-size: 1.1em;
 			line-height: 1.2em;
 			color: #63666a;
 		}
-
 		li {
 			margin: 10px 0
 		}
-
 		hr {
 			margin: 20px 0;
 			border: 0;
 			height: 1px;
 			background: #63666a;
 		}
-
 		.linkbox {
 			margin: 3px 0 20px 0;
 			display: block;
@@ -104,39 +93,32 @@
 			font-weight: 300;
 			line-height: 1.3em;
 		}
-
 		#map {
 			width: 100%;
 			height: 450px;
 			margin: 20px auto;
 		}
-
 		.max-image-width {
 			width: 100%;
 		}
-
 		/* Use float property to make two-column layout */
 		.first-column {
 			float: left;
 			width: 49%;
 			padding-right: 2%;
 		}
-
 		.column {
 			float: left;
 			width: 49%;
 		}
-
 		/* Clear floats after the columns */
 		.row::after {
 			content: "";
 			display: block;
 			clear: both;
 		}
-
 		/* When browser is 900px wide or less */
 		@media screen and (max-width: 900px) {
-
 			.first-column,
 			.second-column {
 				width: 100%;
@@ -165,7 +147,7 @@
 				<ul>
 					<li>See my projects on GitHub: <a href="https://github.com/PratherIII">PratherIII</a></li>
 					<li>Follow me on twitter: <a href="https://twitter.com/Taiza67">@Taiza67</a></li>
-					<li>Visit my <a href='#'>mapping portfolio</a>.</li>
+					<!-- <li>Visit my <a href='#'>mapping portfolio</a>.</li> -->
 				</ul>
 
 
@@ -199,7 +181,6 @@
 		// map options
 		// console.log(li);
 		// console.log(p);
-
 		var options = {
 			center: [37.4922902, -84.3868702],
 			zoom: 6,
@@ -218,12 +199,8 @@
 			maxZoom: 20,
 			ext: 'png'
 		};
-
-
 		// request some basemap tiles and add to the map
 		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
-
-
 		var criticalAreasEnd = L.geoJson(p, {
 			filter: function(feature) {
 				var latlng = feature.geometry.coordinates
@@ -239,7 +216,6 @@
 				}
 			}
 		}).addTo(map);
-
 		var criticalAreasThr = L.geoJson(p, {
 			filter: function(feature) {
 				var latlng = feature.geometry.coordinates
@@ -253,20 +229,8 @@
 					color: "#ffff00",
 					stroke: 1
 				}
-			},
-			onEachFeature: function(feature, layer) {
-				common = p.features.properties.comname;
-				scientific = features.properties.sciname;
-				status = features.properties.listing_st;
-				tool = "<h1>" + common + "</h1>" +
-				"<p>"+ scientific + "</p>"+
-				"<p>"+ status + "</p";
-
-				layer.on('mouseover', function(){
-					layer.bindTooltip(tool)})
-				}})
-				.addTo(map);
-
+			}
+		}).addTo(map);
 		var criticalStreamssEnd = L.geoJson(li, {
 			filter: function(feature) {
 				var latlng = feature.geometry.coordinates
@@ -281,7 +245,6 @@
 				}
 			}
 		}).addTo(map);
-
 		var criticalStreamsThr = L.geoJson(li, {
 			filter: function(feature) {
 				var latlng = feature.geometry.coordinates
